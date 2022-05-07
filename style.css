@@ -130,3 +130,9 @@ form button:hover {
 .edit-btn {
     background-color: var(--color-primary);
 }
+
+#edit-btn{
+    display: none;
+
+}
+

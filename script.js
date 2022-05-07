@@ -1,13 +1,10 @@
-// alert("Krishna");
-
-
 let editBtn = document.querySelector("#edit-btn");
 let addTitle = document.querySelector("#note-title");
 let addText = document.querySelector("#note-text");
 let addBtn = document.querySelector("#add-btn");
+let content = document.querySelector("#notes");
 
-// editBtn.style.visibility = "hidden";
-// console.log(addTitle);
+var editIndex = 0;
 
 var hidden = false;
 
@@ -15,8 +12,6 @@ addBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     if(addTitle.value == "" || addText.value == "" ){
         return alert("Plaese Add Notes")
-
-
     }
 let notes = localStorage.getItem("notes");
 
@@ -34,7 +29,6 @@ notesObj.push(myObj);
 localStorage.setItem("notes",JSON.stringify(notesObj));
 addTitle.value = "";
 addText.value = "";
-
 showContent();
 })
 
@@ -48,6 +42,7 @@ if(notes == null){
 
 let html = "";
 console.log("html");
+
 notesData.forEach((element,index) => {
     html +=`
     <div id="note">
@@ -59,7 +54,6 @@ notesData.forEach((element,index) => {
     </div>
     `
 });
-let content = document.querySelector("#notes");
 content.innerHTML = html;  
 }
 
@@ -71,12 +65,36 @@ function deleteNote(index){
 }
 
 function editNote(index){
-    console.log(index);
+    addBtn.style.display ="none"
+    editBtn.style.display ="block"
     let notes = JSON.parse(localStorage.getItem("notes"));
     let result = notes.filter((v,i)=>index == i);
     console.log(result);
     addTitle.value = result[0].title;
     addText.value = result[0].text;
-
-   
+    editIndex = index;
+    // addBtn.setAttribute('disabled',"");
 }
+
+
+editBtn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    editBtn.style.display ="none"
+    addBtn.style.display ="block"
+    let notes = JSON.parse(localStorage.getItem("notes"));
+    if(addTitle.value == "" || addText.value == "" ){
+        return alert("Plaese Add Notes")
+    }
+    let myObj = {
+        title:addTitle.value,
+        text:addText.value
+    }
+    notes[editIndex] = myObj;
+    console.log(notes);
+    localStorage.setItem("notes",JSON.stringify(notes));
+    addTitle.value = "";
+    addText.value = "";
+    // addBtn.removeAttribute('disabled');
+    showContent();
+})
+showContent();
