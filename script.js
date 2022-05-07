@@ -3,17 +3,15 @@ let addTitle = document.querySelector("#note-title");
 let addText = document.querySelector("#note-text");
 let addBtn = document.querySelector("#add-btn");
 let content = document.querySelector("#notes");
-
+let deleteBtn = document.querySelector("#delete-btn")
 var editIndex = 0;
-
-var hidden = false;
 
 addBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     if(addTitle.value == "" || addText.value == "" ){
         return alert("Plaese Add Notes")
     }
-let notes = localStorage.getItem("notes");
+    let notes = localStorage.getItem("notes");
 
 if(notes == null){
     notesObj = []
@@ -39,18 +37,15 @@ if(notes == null){
 }else{
     notesData = JSON.parse(notes);
 }
-
 let html = "";
-console.log("html");
-
 notesData.forEach((element,index) => {
     html +=`
     <div id="note">
     <p class="note-container">${index+1}</p>
     <h3 class="note-title"> ${element.title}</h3>
     <p class="note-text"> ${element.text}</p>
-    <button id="${index}" onclick="deleteNote(this.id)" class="note-btn"> Delete Note</button>
-    <button id="${index}"  onclick="editNote(this.id)" class="note-btn  edit-btn"> Edit Note</button>
+    <button id="delete-btn" onclick="deleteNote(${index})" class="note-btn"> Delete Note</button>
+    <button id="${index}"  onclick="editNote(${index})" class="note-btn  edit-btn"> Edit Note</button>
     </div>
     `
 });
@@ -73,6 +68,8 @@ function editNote(index){
     addTitle.value = result[0].title;
     addText.value = result[0].text;
     editIndex = index;
+    console.log(deleteBtn);
+    document.querySelector("#delete-btn").setAttribute('disabled',"");
     // addBtn.setAttribute('disabled',"");
 }
 
@@ -94,7 +91,9 @@ editBtn.addEventListener("click",(e)=>{
     localStorage.setItem("notes",JSON.stringify(notes));
     addTitle.value = "";
     addText.value = "";
-    // addBtn.removeAttribute('disabled');
+    document.querySelector("#delete-btn").removeAttribute('disabled',"");
+
     showContent();
+
 })
 showContent();

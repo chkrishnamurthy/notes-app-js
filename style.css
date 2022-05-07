@@ -127,12 +127,15 @@ form button:hover {
     cursor: pointer;
 }
 
-.edit-btn {
-    background-color: var(--color-primary);
-}
+
 
 #edit-btn{
     display: none;
 
+}
+
+.heading{
+    width: 80%;
+    border-radius: 20px red solid !important;
 }
 
